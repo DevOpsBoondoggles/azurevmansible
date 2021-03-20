@@ -6,3 +6,6 @@ crash.log
 
 # For built boxes
 *.box
+
+#dont want to check secrets
+windows.json
