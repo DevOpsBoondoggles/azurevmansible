@@ -9,3 +9,8 @@ crash.log
 
 #dont want to check secrets
 windows.json
+
+.terraform/
+.terraform*
+tf.plan
+*.tfstate*
