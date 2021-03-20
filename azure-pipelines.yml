@@ -1,0 +1,75 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- none
+
+pool:
+  vmImage: ubuntu-latest
+
+variables: 
+  workingdir: terraform
+  enableterraform: false
+
+stages:
+  - stage: Plan
+    jobs:
+      - job: PlanTF
+        steps:
+                
+        - task: TerraformCLI@0
+          displayName: init
+          enabled: false
+          inputs:
+            command: 'init'
+            backendType: 'azurerm'
+            backendServiceArm: 'loftyazcsp'
+            ensureBackend: true
+            backendAzureRmResourceGroupName: 'tfstatelofty'
+            backendAzureRmResourceGroupLocation: 'northeurope'
+            backendAzureRmStorageAccountName: 'tfstatelofty007'
+            backendAzureRmStorageAccountSku: 'Standard_LRS'
+            backendAzureRmContainerName: 'tfstatelofty007'
+            backendAzureRmKey: 'lofty'
+            allowTelemetryCollection: true
+            workingDirectory: $(workingdir)
+        - task: TerraformCLI@0
+          displayName: validate
+          enabled: false
+          inputs:
+            command: 'validate'
+            allowTelemetryCollection: true
+            workingDirectory: $(workingdir)
+        - task: TerraformCLI@0
+          displayName: plan
+          enabled: false
+          inputs:
+            workingDirectory: $(workingdir)
+            command: 'plan'
+            environmentServiceName: 'loftyazcsp'
+            commandOptions: '-var-file=dev.tfvars'
+            allowTelemetryCollection: true
+        - task: TerraformCLI@0
+          enabled: false
+          inputs:
+            workingDirectory: $(workingdir)
+            command: 'apply'
+            environmentServiceName: 'loftyazcsp'
+            commandOptions: '-var-file=dev.tfvars'
+            allowTelemetryCollection: true
+        - task: Ansible@0
+          inputs:
+            ansibleInterface: 'agentMachine'
+            playbookPathOnAgentMachine: 'playbooks/winrm.yml'
+            inventoriesAgentMachine: 'file'
+            inventoryFileOnAgentMachine: 'playbooks/inventory.yml'
+            args: '-vvvvv'
+        - task: Ansible@0
+          inputs:
+            ansibleInterface: 'agentMachine'
+            playbookPathOnAgentMachine: 'playbooks/install-iis.yml'
+            inventoriesAgentMachine: 'file'
+            inventoryFileOnAgentMachine: 'playbooks/inventory.yml'
+            args: '-vvvvv'

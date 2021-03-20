@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  tasks:
+
+  - name: install winrm
+    pip:
+      name: pywinrm
+      state: present
+      version: 0.3.0
+...
+

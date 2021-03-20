@@ -1,0 +1,3 @@
+variable vnetrange {
+    type = list
+}

@@ -1,0 +1,9 @@
+---
+- hosts: 51.140.68.229
+  tasks:
+
+  - name: Install IIS
+    win_feature:
+      name: Web-Server
+      state: present
+...
