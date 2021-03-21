@@ -32,7 +32,12 @@
     "provisioners": [{
       "type": "powershell",
       "inline": [
-        "Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1'))",
+        "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12",       
+        "$VAR=Invoke-WebRequest 'https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1' -usebasicparsing",
+        "$TEMP=New-TemporaryFile",
+        "$FILE=$TEMP.FullName + '.ps1'",
+        "$VAR.Content | Out-File $FILE",
+        "& $FILE -Verbose -ForceNewSSLCert -SubjectName ansiblevm",
         "while ((Get-Service RdAgent).Status -ne 'Running') { Start-Sleep -s 5 }",
         "while ((Get-Service WindowsAzureGuestAgent).Status -ne 'Running') { Start-Sleep -s 5 }",
         "& $env:SystemRoot\\System32\\Sysprep\\Sysprep.exe /oobe /generalize /quiet /quit",

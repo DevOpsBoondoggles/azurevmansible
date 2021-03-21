@@ -74,7 +74,12 @@ resource "azurerm_virtual_machine" "vm" {
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
   }
-    
+  # storage_image_reference {
+  #   publisher = "MicrosoftWindowsServer"
+  #   offer     = "WindowsServer"
+  #   sku       = "2016-Datacenter"
+  #   version   = "latest"
+  # }
   storage_image_reference {
     id = "/subscriptions/093f11e6-c3b7-42cf-aa06-77ce8e447b77/resourceGroups/MYPACKERGROUP/providers/Microsoft.Compute/images/ansibleenabled"
   }
