@@ -4,7 +4,7 @@ all:
     localhost:
       ansible_connection: local
       ansible_python_interpreter: /usr/bin/python3
-    51.105.41.177:
+    51.140.47.29:
       ansible_user: 'adminuser12'
       ansible_password : 'P@$$word1234!'
       ansible_connection: winrm
