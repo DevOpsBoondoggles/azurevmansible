@@ -4,9 +4,9 @@ all:
     localhost:
       ansible_connection: local
       ansible_python_interpreter: /usr/bin/python3
-    51.140.68.229:
-      ansible_user: 'ansible'
-      ansible_password : 'Testpassword1234!'
+    51.105.41.177:
+      ansible_user: 'adminuser12'
+      ansible_password : 'P@$$word1234!'
       ansible_connection: winrm
       ansible_winrm_transport: basic
       ansible_port: 5986
