@@ -5,6 +5,7 @@ terraform {
       version = "2.52.0"
     }
   }
+  # backend "azurerm" { }  #this line needs uncommented if using Azure backend via the charles zipp extension. 
 }
 
 provider "azurerm" {
